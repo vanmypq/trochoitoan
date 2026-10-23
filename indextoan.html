@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><title>Toán 8 – Đại chiến cử chỉ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<style>
+:root{--c1:#2e8bff;--c2:#ff4d6d;color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;height:100%;height:100dvh;background:#05070f;color:#fff;font-family:system-ui,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:min(100vw,177.78vh);aspect-ratio:16/9;container-type:inline-size;background:#0b1020;overflow:hidden;user-select:none}
+#v{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
+#v.m{transform:scaleX(-1)}
+.h{position:absolute;top:0;bottom:0;width:50%}
+#h1{left:0;background:linear-gradient(#2e8bff33,#2e8bff11)}#h2{right:0;background:linear-gradient(#ff4d6d33,#ff4d6d11)}
+#dv{position:absolute;left:50%;top:29cqw;bottom:1cqw;width:.3cqw;background:#fff6}
+#hd{position:absolute;top:0;left:0;right:0;height:9cqw;display:flex;justify-content:space-between;align-items:center;padding:1cqw 2cqw}
+.tm{width:30cqw;padding:.6cqw 1.5cqw;border-radius:1.2cqw;background:#000a;display:flex;justify-content:space-between;align-items:center}
+.tm b{font-size:1.9cqw}.tm span{font-size:3.8cqw;font-weight:800}
+#t1{border-left:.8cqw solid var(--c1)}#t2{border-right:.8cqw solid var(--c2);flex-direction:row-reverse}
+#mid{text-align:center;font-size:1.6cqw}#tm{font-size:3.4cqw;font-weight:800;display:block}
+#qb{position:absolute;top:10cqw;left:6cqw;right:6cqw;height:16cqw;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3.5cqw;font-weight:800;background:#000a;border-radius:2cqw;padding:1cqw 3cqw;line-height:1.25}
+#bar{position:absolute;top:27.3cqw;left:6cqw;right:6cqw;height:1cqw;background:#fff3;border-radius:1cqw;overflow:hidden}
+#bf{height:100%;width:100%;background:linear-gradient(90deg,#ffd23f,#ff7a00)}
+.card{position:absolute;top:31cqw;height:22cqw;width:23cqw;border-radius:2cqw;background:#0009;border:.4cqw solid;overflow:hidden;display:flex;align-items:center;gap:1.2cqw;padding:0 1.5cqw;font-size:2.7cqw;font-weight:700;cursor:pointer;transition:transform .2s}
+.card{box-shadow:0 0 var(--g,0cqw) #4fd1ff}
+.card.t0{border-color:var(--c1)}.card.t1{border-color:var(--c2)}
+.card .f{position:absolute;left:0;right:0;bottom:0;height:0;background:#ffffff55}
+.card i{position:relative;flex:none;width:4.5cqw;height:4.5cqw;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;font-style:normal;font-size:2.6cqw;font-weight:800}
+.card span{position:relative;line-height:1.2}
+.card.lk{--tint:#ffd23f55;transform:scale(1.04);box-shadow:0 0 3cqw #ffd23f}
+.card.ok{--tint:#17c964aa;box-shadow:0 0 3cqw #17c964;transform:scale(1.06)}
+.card.bad{--tint:#f31260aa}
+.cv{position:absolute;inset:0;width:100%;height:100%;display:none}
+body.cam .cv{display:block}
+.card{--tint:#0000}
+body.cam .card:not(.lk):not(.ok):not(.bad){--tint:#00000055}
+.card::after{content:"";position:absolute;inset:0;background:var(--tint);pointer-events:none;transition:background .2s}
+.card .f{z-index:1}
+.card i,.card span{z-index:2}
+.card span{text-shadow:0 .1cqw .6cqw #000,0 0 .3cqw #000}
+#hint{position:absolute;bottom:.7cqw;left:0;right:0;padding:0 2cqw 0 43cqw;text-align:center;font-size:1.25cqw;opacity:.8}
+.cb{position:absolute;bottom:.5cqw;left:1cqw;z-index:10;display:flex;gap:.6cqw}
+.cb button{font:inherit;font-size:1.35cqw;font-weight:800;padding:.55cqw 1.1cqw;border:0;border-radius:3cqw;background:#fff;color:#111;cursor:pointer}
+.cb button.off{background:#ffd23f;animation:pl .8s infinite alternate}
+@keyframes pl{to{transform:scale(1.1)}}
+.cb span{font-size:1.3cqw;font-weight:800;background:#000b;padding:.55cqw 1cqw;border-radius:3cqw;white-space:nowrap}
+#rot{display:none!important;color:#ffd23f;font-weight:800}
+@media(orientation:portrait){#rot{display:block!important}}
+#toast{position:absolute;left:50%;bottom:4cqw;transform:translateX(-50%);z-index:25;max-width:80cqw;background:#ffd23f;color:#111;font-weight:700;font-size:1.8cqw;padding:1cqw 2cqw;border-radius:1.5cqw;text-align:center;line-height:1.35}
+.ov{position:absolute;inset:0;z-index:20;background:#050814e6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.4cqw}
+.ov h1{margin:0;font-size:5cqw;background:linear-gradient(90deg,#4fd1ff,#ffd23f,#ff4d6d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ov p{margin:0;font-size:1.8cqw;max-width:70cqw;opacity:.9;line-height:1.4}
+.btn{font:inherit;font-weight:800;font-size:2cqw;padding:1cqw 3cqw;border:0;border-radius:5cqw;cursor:pointer;color:#111;background:linear-gradient(#ffe56b,#ffb300);box-shadow:0 .4cqw 0 #b37a00}
+.btn.s{background:#fff;box-shadow:0 .4cqw 0 #aaa;font-size:1.6cqw;padding:.8cqw 2cqw}
+.btn:active{transform:translateY(.3cqw)}
+.row2{display:flex;gap:1.5cqw;flex-wrap:wrap;justify-content:center}
+#res{flex-direction:row;gap:0;justify-content:stretch;background:#050814f5}
+.rh{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5cqw;padding-top:6cqw}
+#r1{background:#2e8bff22}#r2{background:#ff4d6d22}
+.rh h3{margin:0;font-size:2.6cqw}.rh .e{font-size:7cqw;line-height:1}.rh .p{font-size:6cqw;font-weight:900;color:#ffd23f}.rh .to{font-size:2.4cqw}
+#rt{position:absolute;top:2.5cqw;left:0;right:0;text-align:center;font-size:3cqw;font-weight:900}
+#ra{position:absolute;top:8.5cqw;left:0;right:0;text-align:center;font-size:2cqw}
+#nx{position:absolute;bottom:3cqw;left:50%;transform:translateX(-50%)}
+#fx{position:absolute;inset:0;width:100%;height:100%;z-index:30;pointer-events:none}
+#ed{position:fixed;inset:0;z-index:99;background:#0b1020;overflow:auto;padding:16px;font-size:15px}
+#ed .w{max-width:980px;margin:auto}
+#ed h2{margin:0 0 10px}
+.cfg{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}.cfg label{display:flex;flex-direction:column;gap:3px;font-size:12px;opacity:.9}
+#ed input,#ed select{font:inherit;padding:8px;border-radius:8px;border:1px solid #fff4;background:#1a2140;color:#fff;min-width:0}
+.row{display:grid;grid-template-columns:28px 3fr 1.3fr 1.3fr 100px 40px;gap:6px;margin-bottom:6px;align-items:center}
+@media(max-width:700px){.row{grid-template-columns:24px 1fr 1fr;}.row input:first-of-type{grid-column:2/4}}
+#ed button{font:inherit;padding:9px 14px;border-radius:8px;border:0;background:#ffd23f;color:#111;font-weight:700;cursor:pointer;margin:4px 4px 4px 0}
+#ed button.g{background:#2a3358;color:#fff}
+</style></head><body>
+<div id="stage">
+<video id="v" playsinline muted></video>
+<div class="h" id="h1"></div><div class="h" id="h2"></div><div id="dv"></div>
+<div id="hd">
+<div class="tm" id="t1"><b id="n1">Đội Xanh</b><span id="s1">0</span></div>
+<div id="mid"><div id="qn">Câu 1/8</div><span id="tm">15</span></div>
+<div class="tm" id="t2"><b id="n2">Đội Đỏ</b><span id="s2">0</span></div>
+</div>
+<div id="qb"></div>
+<div id="bar"><div id="bf"></div></div>
+<div id="cards"></div>
+<div id="hint">Vẫy tay vào ô đáp án đúng để chọn · Phím A/S = Đội 1, K/L = Đội 2 · hoặc chạm ô</div>
+
+<div class="cb"><button id="cb" class="off">📷 Bật camera</button><button id="cf" title="Đổi camera trước/sau">🔄</button><button id="fs" title="Toàn màn hình">⛶</button><button id="sm" title="Giảm độ nhạy">🎚 −</button><span id="sl"></span><button id="sp" title="Tăng độ nhạy">🎚 +</button><button id="cal" hidden>🪄 Hiệu chỉnh 4 ô</button><button id="tx" hidden>⬅ Thoát thử</button></div>
+
+<div id="toast" hidden></div>
+<div class="ov" id="start">
+<h1 id="gt">TOÁN 8 · ĐẠI CHIẾN CỬ CHỈ</h1>
+<p>2 đội cùng trả lời một câu hỏi trên màn hình chia đôi. Mỗi câu có 2 đáp án – vẫy tay (vẫy qua lại vài nhịp) vào đáp án đúng – hình camera hiện ngay trong từng ô đáp án, hãy đưa tay vào đúng ô để chọn. Đúng và nhanh sẽ được nhiều điểm hơn!</p>
+<p id="rot">↻ Hãy xoay ngang điện thoại để chơi toàn màn hình.</p>
+<p id="cs">Camera chưa bật – vẫn có thể chơi bằng phím hoặc chạm.</p>
+<div class="row2">
+<button class="btn s" id="bcam">📷 Bật camera</button>
+<button class="btn s" id="bflip">🔄 Đổi camera trước/sau</button>
+<button class="btn s" id="bed">✏️ Soạn câu hỏi</button>
+<button class="btn s" id="bfs">⛶ Toàn màn hình</button>
+<button class="btn s" id="btest">🎯 Thử cử chỉ</button>
+</div>
+<button class="btn" id="go">▶ BẮT ĐẦU CHƠI</button>
+</div>
+
+<div class="ov" id="res" hidden>
+<div id="rt"></div><div id="ra"></div>
+<div class="rh" id="r1"></div><div class="rh" id="r2"></div>
+<button class="btn" id="nx">Câu tiếp theo ▶</button>
+</div>
+
+<div class="ov" id="end" hidden>
+<div style="font-size:9cqw;line-height:1">🏆</div><h1 id="ew"></h1><p id="es" style="font-size:2.6cqw"></p>
+<button class="btn" id="again">🔁 Chơi lại</button>
+</div>
+<canvas id="fx"></canvas>
+</div>
+
+<div id="ed" hidden><div class="w">
+<h2>✏️ Soạn câu hỏi</h2>
+<div class="cfg">
+<label style="flex:1 1 100%">Tên trò chơi (hiện ở màn hình đầu)<input id="etl" style="width:100%"></label><label>Tên đội 1<input id="e1"></label><label>Tên đội 2<input id="e2"></label>
+<label>Thời gian mỗi câu (giây)<input id="et" type="number" min="5" max="120"></label>
+<label>Độ nhạy cử chỉ (1–10)<input id="es2" type="number" min="1" max="10"></label>
+</div>
+<div id="ip" hidden style="background:#141b36;border:1px solid #fff3;border-radius:10px;padding:12px;margin-bottom:12px">
+<b>📥 Nhập câu hỏi hàng loạt</b>
+<p style="font-size:13px;opacity:.9;margin:6px 0;line-height:1.5">Dán văn bản vào ô dưới hoặc chọn file .txt / .csv (mã hóa UTF-8). Có 2 kiểu:<br>
+<b>Kiểu 1 – mỗi câu một dòng</b>, ngăn cách bằng <code>|</code>, phím Tab hoặc dấu <code>;</code> (có thể dán thẳng 3 cột từ Excel):<br>
+<code>Câu hỏi | Đáp án đúng | Đáp án sai</code><br>
+Muốn chỉ rõ đáp án đúng là A hay B thì thêm cột thứ 4: <code>Câu hỏi | Đáp án A | Đáp án B | B</code><br>
+<b>Kiểu 2 – theo khối</b>, mỗi câu cách nhau một dòng trống:<br>
+<code>Câu 1: Nội dung câu hỏi</code><br><code>A. Đáp án A</code><br><code>B. Đáp án B</code><br><code>Đáp án: A</code> (hoặc gõ dấu * sau đáp án đúng)</p>
+<textarea id="it" rows="7" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid #fff4;background:#1a2140;color:#fff" placeholder="Dán câu hỏi vào đây..."></textarea>
+<div style="margin-top:6px"><input type="file" id="if" accept=".txt,.csv,.tsv,.md,text/plain"></div>
+<div style="margin-top:4px"><button id="ia">➕ Thêm vào danh sách</button><button class="g" id="ir">♻ Thay toàn bộ</button><button class="g" id="is">📄 Tải file mẫu</button></div>
+<div id="im" style="font-size:13px;margin-top:6px;color:#ffd23f"></div></div>
+<div id="list"></div>
+<button id="add">➕ Thêm câu</button><button class="g" id="imp">📥 Nhập hàng loạt</button><button class="g" id="rst">↺ Khôi phục mẫu</button><button id="sv">💾 Lưu &amp; đóng</button>
+<p style="opacity:.7;font-size:13px">Mỗi câu chỉ có 2 đáp án; chọn đáp án đúng ở cột bên phải. Vị trí A/B được xáo ngẫu nhiên khi chơi. Có thể gõ ký hiệu như x², √, ≤, π, °.</p>
+</div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const DEF=[
+{q:"Khai triển (a + b)² bằng:",a:["a² + 2ab + b²","a² + b²"],c:0},
+{q:"Phân tích x² − 9 thành nhân tử:",a:["(x − 3)(x + 3)","(x − 3)²"],c:0},
+{q:"Giá trị của x² − 4x + 4 tại x = 2 là:",a:["0","4"],c:0},
+{q:"Hình thoi có hai đường chéo:",a:["vuông góc với nhau","bằng nhau"],c:0},
+{q:"Tổng các góc trong của một tứ giác bằng:",a:["360°","180°"],c:0},
+{q:"Rút gọn (x² − 1)/(x − 1) với x ≠ 1:",a:["x + 1","x − 1"],c:0},
+{q:"Nghiệm của phương trình 2x − 6 = 0 là:",a:["x = 3","x = −3"],c:0},
+{q:"Hình chữ nhật có hai cạnh 3 cm và 4 cm. Đường chéo dài:",a:["5 cm","7 cm"],c:0}];
+let Q,cfg;
+try{Q=JSON.parse(localStorage.getItem('t8q'));cfg=JSON.parse(localStorage.getItem('t8c'))}catch(e){}
+if(!Array.isArray(Q)||!Q.length)Q=JSON.parse(JSON.stringify(DEF));
+cfg=Object.assign({title:'TOÁN 8 · ĐẠI CHIẾN CỬ CHỈ',time:15,sens:8,names:['Đội Xanh','Đội Đỏ']},cfg||{});
+if(!cfg.v){cfg.sens=Math.max(8,cfg.sens||8);cfg.v=2}
+if(cfg.v<3){cfg.gain=[1.35,1,1,1.35];cfg.v=3}
+const save=()=>{try{localStorage.setItem('t8q',JSON.stringify(Q));localStorage.setItem('t8c',JSON.stringify(cfg))}catch(e){}};
+
+/* ===== Âm thanh ===== */
+let AC;const au=()=>{if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}if(AC&&AC.state=='suspended')AC.resume();return AC};
+function tone(f,t,d,type='triangle',v=.2,f2){const c=au();if(!c)return;const o=c.createOscillator(),g=c.createGain(),T=c.currentTime+t;o.type=type;o.frequency.setValueAtTime(f,T);if(f2)o.frequency.exponentialRampToValueAtTime(f2,T+d);g.gain.setValueAtTime(v,T);g.gain.exponentialRampToValueAtTime(.001,T+d);o.connect(g).connect(c.destination);o.start(T);o.stop(T+d+.05)}
+const kick=t=>tone(160,t,.15,'sine',.5,40);
+function hat(t){const c=au();if(!c)return;const b=c.createBuffer(1,c.sampleRate*.05,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=c.createBufferSource(),g=c.createGain(),h=c.createBiquadFilter();h.type='highpass';h.frequency.value=7000;s.buffer=b;g.gain.value=.15;s.connect(h).connect(g).connect(c.destination);s.start(c.currentTime+t)}
+const SFX={
+pop:()=>tone(700,0,.12,'square',.12,1100),
+tick:()=>tone(900,0,.06,'square',.08),
+win:()=>{[523,659,784,1047,784,1047,1319,1568].forEach((f,i)=>{tone(f,i*.11,.2,'square',.1);tone(f/2,i*.11,.2,'triangle',.15);hat(i*.11);if(i%2==0)kick(i*.11)})},
+lose:()=>{tone(300,0,.6,'sawtooth',.1,90)},
+fan:()=>{[523,659,784,1047,988,1047,1319,1568,1319,1568,2093].forEach((f,i)=>{tone(f,i*.14,.3,'square',.1);tone(f/2,i*.14,.3,'triangle',.15);kick(i*.14);hat(i*.14+.07)})}};
+
+/* ===== Pháo giấy ===== */
+const fx=$('#fx'),fc=fx.getContext('2d');let P=[];
+const fit=()=>{const W=Math.min(innerWidth,innerHeight*16/9);$('#stage').style.width=W+'px';fx.width=fx.clientWidth;fx.height=fx.clientHeight};
+['resize','fullscreenchange','webkitfullscreenchange'].forEach(e=>addEventListener(e,fit));document.addEventListener('fullscreenchange',fit);addEventListener('orientationchange',()=>{setTimeout(fit,300);setTimeout(fit,800)});fit();setTimeout(fit,300);
+const inFs=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function fs(){const d=document,e=d.documentElement;if(inFs()){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{const r=e.requestFullscreen||e.webkitRequestFullscreen;if(r){try{const p=r.call(e);if(p&&p.then)p.then(()=>{try{screen.orientation.lock('landscape').catch(()=>{})}catch(x){}setTimeout(fit,300)}).catch(()=>{})}catch(x){}}}}
+const goFs=()=>{if(!inFs())fs()};
+function burst(x,y,n=90){for(let i=0;i<n;i++){const a=Math.random()*6.28,s=4+Math.random()*11;P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-7,r:4+Math.random()*7,c:`hsl(${Math.random()*360},90%,60%)`,l:80+Math.random()*60})}}
+function drawFx(){fc.clearRect(0,0,fx.width,fx.height);P=P.filter(p=>p.l>0);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.vx*=.99;p.l--;fc.fillStyle=p.c;fc.fillRect(p.x,p.y,p.r,p.r*.6)})}
+
+/* ===== Camera & nhận diện chuyển động ===== */
+const v=$('#v'),mc=document.createElement('canvas');mc.width=96;mc.height=54;
+const mx=mc.getContext('2d',{willReadFrequently:true});
+let camOn=false,facing='user',prev=null,mir=true;
+let mf=[0,0,0,0];
+const toast=(m,ms=9000)=>{const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,ms)};
+async function cam(){
+ const md=navigator.mediaDevices;
+ if(!md||!md.getUserMedia){const m='⚠️ Khung nhúng/trình duyệt này không cho dùng camera. Hãy tải file về và mở bằng Chrome/Safari, hoặc đưa lên Netlify/GitHub Pages (https).';$('#cs').textContent=m;toast(m);return false}
+ if(v.srcObject)v.srcObject.getTracks().forEach(t=>t.stop());
+ let s=null,err=null;
+ for(const c of [{video:{facingMode:{ideal:facing},width:{ideal:640},height:{ideal:360},frameRate:{ideal:30}},audio:false},{video:true,audio:false}]){
+  try{s=await md.getUserMedia(c);break}catch(e){err=e;if(e.name=='NotAllowedError'||e.name=='SecurityError')break}
+ }
+ if(!s){camOn=false;setCb();const n=err&&err.name,m=(n=='NotAllowedError'||n=='SecurityError')?'⚠️ Camera bị chặn (bạn chưa cho phép, hoặc khung nhúng của claude.ai không cấp quyền camera). Hãy tải file về mở bằng Chrome/Safari, hoặc đưa lên Netlify/GitHub Pages để dùng camera.':n=='NotFoundError'?'⚠️ Không tìm thấy camera trên thiết bị này.':n=='NotReadableError'?'⚠️ Camera đang được ứng dụng khác sử dụng – hãy đóng ứng dụng đó rồi thử lại.':'⚠️ Không bật được camera ('+(n||'lỗi')+').';$('#cs').textContent=m;toast(m);return false}
+ v.srcObject=s;v.muted=true;try{await v.play()}catch(e){}
+ camOn=true;prev=null;p1=p2=null;mir=facing=='user';v.classList.toggle('m',mir);setCb();
+ const m='📷 Camera đã bật – vẫy tay qua lại vào ô đáp án để chọn!';$('#cs').textContent=m;toast(m,3500);return true;
+}
+const CY=31,CH=22,GW=96,GH=54,ZW=24,Y0=Math.round(CY/56.25*GH),Y1=Math.round((CY+CH)/56.25*GH),ZPX=ZW*(Y1-Y0);
+let p1=null,p2=null,sm=[0,0,0,0],bs=[0,0,0,0],thr=[.03,.03,.03,.03],mt=0,rr=[0,0,0,0],rp=[0,0,0,0],fp=[0,0,0,0],hi=[0,0,0,0],mxv=[0,0,0,0],mnv=[0,0,0,0],ev=[[],[],[],[]],calZ=-1,calMax=0,calBusy=false;
+const gainz=()=>cfg.gain||[1.35,1,1,1.35];
+function motion(){
+ if(!camOn||v.readyState<2)return null;
+ const w=v.videoWidth,h=v.videoHeight;let sw=w,sh=w*9/16;if(sh>h){sh=h;sw=h*16/9}
+ mx.save();if(mir){mx.translate(GW,0);mx.scale(-1,1)}
+ mx.drawImage(v,(w-sw)/2,(h-sh)/2,sw,sh,0,0,GW,GH);mx.restore();
+ const d=mx.getImageData(0,0,GW,GH).data,N=GW*GH,g=new Uint8Array(N);
+ for(let i=0;i<N;i++)g[i]=(d[i*4]*3+d[i*4+1]*6+d[i*4+2])/10;
+ let r=null;
+ if(p1){
+  let pos=0,neg=0;
+  for(let i=0;i<N;i++){const x=g[i]-p1[i];if(x>3)pos++;else if(x<-3)neg++}
+  if(pos<.8*N&&neg<.8*N){
+   const T=12+(10-cfg.sens)*2,Te=Math.max(8,Math.round(T*.7)),c=[0,0,0,0];
+   for(let y=Y0;y<Y1;y++)for(let x=0;x<GW;x++){const i=y*GW+x;if(Math.abs(g[i]-p1[i])>((x<8||x>=GW-8)?Te:T))c[(x/ZW)|0]++}
+   r=c.map(n=>n/ZPX);
+  }
+ }
+ p1=g;return r;
+}
+function fire(t,p){
+ if(phase=='q')choose(t,p);
+ else{const c=cards[t*2+p];c.classList.add('ok');SFX.pop();setTimeout(()=>c.classList.remove('ok'),700)}
+}
+function mstep(now){
+ if(now-mt<60)return;const dt=Math.min(.2,(now-mt)/1000);mt=now;
+ const f=motion();if(!f)return;
+ const G=gainz(),base=.05-cfg.sens*.0033;
+ for(let z=0;z<4;z++){
+  const e=f[z]*G[z];
+  sm[z]=sm[z]*.45+f[z]*.55;
+  const es=(e+fp[z])/2;fp[z]=e;
+  thr[z]=Math.max(.012,bs[z]*2+base);
+  if(es<thr[z]&&charge[z]<.2)bs[z]=bs[z]*.97+e*.03;
+  rr[z]=es/thr[z];
+  rp[z]=Math.max(rr[z],rp[z]*Math.pow(.5,dt/.4));
+  if(hi[z]){if(es>mxv[z])mxv[z]=es;if(es<mxv[z]*.72){if(mxv[z]>thr[z])ev[z].push(now);hi[z]=0;mnv[z]=es}}
+  else{if(es<mnv[z])mnv[z]=es;if(es>mnv[z]*1.35+thr[z]*.15){hi[z]=1;mxv[z]=es}}
+  ev[z]=ev[z].filter(t=>now-t<1200);
+ }
+ if(calZ>=0){calMax=Math.max(calMax,sm[calZ]);return}
+ for(let t=0;t<2;t++){
+  if(phase=='q'&&locks[t]!=null)continue;
+  const W=[0,1].map(p=>{const a=ev[t*2+p],n=a.length;return n>=2&&now-a[n-1]<500&&a[n-1]-a[n-2]>=100&&a[n-1]-a[n-2]<=800});
+  for(let p=0;p<2;p++){
+   const z=t*2+p,o=t*2+1-p,lead=!W[1-p]||rp[z]>rp[o]*1.25;
+   let g=-1;
+   if(W[p]&&lead){const full=ev[z].length>=3;g=full?2.4+Math.min(rp[z]-1,2)*.8:1;if(!full&&charge[z]>=.75)g=0}
+   else if(rr[z]>1&&ev[z].length>=1&&lead&&charge[z]<.45)g=.9;
+   charge[z]=Math.max(0,Math.min(1,charge[z]+dt*g));
+  }
+  for(let p=0;p<2;p++){if(charge[t*2+p]>=1){charge[t*2]=charge[t*2+1]=0;ev[t*2]=[];ev[t*2+1]=[];fire(t,p);break}}
+ }
+}
+function glow(){cards.forEach((c,k)=>{if(phase=='test'||locks[k>>1]==null)c.querySelector('.f').style.height=charge[k]*100+'%';c.style.setProperty('--g',(camOn?Math.min(3,rp[k]*1.2):0)+'cqw')})}
+async function calib(){
+ if(calBusy||!camOn)return;calBusy=true;const pk=[0,0,0,0];
+ for(let z=0;z<4;z++){
+  cards.forEach(c=>c.classList.remove('lk'));cards[z].classList.add('lk');
+  $('#qb').textContent='🪄 Hiệu chỉnh: vẫy tay tự nhiên vào ô sáng vàng ('+cfg.names[z>>1]+' – ô '+'AB'[z%2]+') trong 3 giây';
+  calMax=0;calZ=z;await new Promise(r=>setTimeout(r,3000));pk[z]=calMax;
+ }
+ calZ=-1;cards.forEach(c=>c.classList.remove('lk'));
+ const m=[...pk].sort((a,b)=>a-b),med=(m[1]+m[2])/2,miss=[];
+ cfg.gain=pk.map((x,z)=>{if(x<.004){miss.push(cfg.names[z>>1]+' ô '+'AB'[z%2]);return 2}return +Math.max(.7,Math.min(3,med/x)).toFixed(2)});
+ save();charge=[0,0,0,0];ev=[[],[],[],[]];
+ $('#qb').textContent=miss.length?'⚠️ Gần như không thấy cử chỉ ở: '+miss.join(', ')+' – hãy đứng gần hơn / thêm ánh sáng rồi hiệu chỉnh lại.':'✅ Đã hiệu chỉnh xong – hệ số các ô: '+cfg.gain.join(' · ')+'. Hãy vẫy thử vào từng ô.';
+ calBusy=false;
+}
+
+/* ===== Trò chơi ===== */
+let idx=0,scores=[0,0],phase='idle',q,order,locks,lt,charge=[0,0,0,0],t0=0,lastTick=-1,lastM=0;
+const cardsEl=$('#cards');
+for(let k=0;k<4;k++){const d=document.createElement('div');d.className='card t'+(k>>1);d.style.left=(k*25+1)+'cqw';d.innerHTML='<canvas class="cv" width="320" height="306"></canvas><div class="f"></div><i>'+'AB'[k%2]+'</i><span></span>';d.onclick=()=>{au();choose(k>>1,k%2)};cardsEl.appendChild(d)}
+const cards=[...cardsEl.children];
+const cvs=cards.map(c=>c.querySelector('.cv').getContext('2d'));
+function drawCams(){
+ if(v.readyState<2)return;
+ const w=v.videoWidth,h=v.videoHeight;let sw=w,sh=w*9/16;if(sh>h){sh=h;sw=h*16/9}
+ const ox=(w-sw)/2,oy=(h-sh)/2,fy=CY/56.25,fh=CH/56.25,fw=.23;
+ for(let k=0;k<4;k++){
+  const x0=(k*25+1)/100,g=cvs[k],W=g.canvas.width,H=g.canvas.height;
+  const sx=ox+(mir?1-x0-fw:x0)*sw;
+  g.save();if(mir){g.translate(W,0);g.scale(-1,1)}
+  g.drawImage(v,sx,oy+fy*sh,fw*sw,fh*sh,0,0,W,H);g.restore();
+ }
+}
+function names(){$('#n1').textContent=cfg.names[0];$('#n2').textContent=cfg.names[1];$('#gt').textContent=cfg.title;document.title=cfg.title;slUp()}
+function scoreUI(){$('#s1').textContent=scores[0];$('#s2').textContent=scores[1]}
+function nextQ(){
+ q=Q[idx];order=Math.random()<.5?[0,1]:[1,0];locks=[null,null];lt=[0,0];charge=[0,0,0,0];prev=null;p1=p2=null;ev=[[],[],[],[]];hi=[0,0,0,0];
+ $('#qb').textContent=q.q;$('#qn').textContent='Câu '+(idx+1)+'/'+Q.length;
+ cards.forEach((c,k)=>{c.className='card t'+(k>>1);c.querySelector('span').textContent=q.a[order[k%2]];c.querySelector('.f').style.height='0'});
+ names();scoreUI();$('#res').hidden=true;phase='q';t0=performance.now();lastTick=-1;
+}
+function choose(t,p,){
+ if(phase!='q'||locks[t]!=null)return;
+ locks[t]=p;lt[t]=Math.max(0,cfg.time-(performance.now()-t0)/1000);
+ cards[t*2+p].classList.add('lk');cards[t*2+p].querySelector('.f').style.height='0';SFX.pop();
+ if(locks[0]!=null&&locks[1]!=null)reveal();
+}
+function reveal(){
+ if(phase!='q')return;phase='r';
+ const cp=order.indexOf(q.c),ok=[0,1].map(t=>locks[t]===cp),pt=[0,0];
+ ok.forEach((o,t)=>{if(o)pt[t]=100+Math.round(100*lt[t]/cfg.time)});
+ const cor=[0,1].filter(t=>ok[t]);
+ if(cor.length){const b=cor.reduce((a,c)=>lt[c]>lt[a]?c:a);if(cor.length==1||lt[0]!=lt[1])pt[b]+=50}
+ cards.forEach((c,k)=>{const t=k>>1,p=k%2;c.classList.remove('lk');if(p==cp)c.classList.add('ok');else if(locks[t]==p)c.classList.add('bad')});
+ setTimeout(()=>showRes(ok,pt,cp),1100);
+}
+function tw(el,a,b,f,d=1200){const s=performance.now();(function g(n){const p=Math.min(1,(n-s)/d);el.textContent=f(Math.round(a+(b-a)*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(g)})(s)}
+function showRes(ok,pt,cp){
+ const old=[...scores];scores[0]+=pt[0];scores[1]+=pt[1];
+ const n=cfg.names,both=ok[0]&&ok[1],any=ok[0]||ok[1];
+ $('#rt').textContent=both?'🔥 Cả hai đội đều đúng!':any?'🎉 '+n[ok[0]?0:1]+' ghi điểm!':'😅 Chưa đội nào đúng – cố lên!';
+ $('#ra').innerHTML='Đáp án đúng: <b>'+esc(q.a[q.c])+'</b>';
+ [0,1].forEach(t=>{$('#r'+(t+1)).innerHTML='<h3>'+esc(n[t])+'</h3><div class="e">'+(ok[t]?'✅':locks[t]==null?'⏰':'❌')+'</div><div class="p">+0</div><div class="to">Tổng: '+old[t]+'</div>'});
+ $('#nx').textContent=idx==Q.length-1?'Xem kết quả 🏆':'Câu tiếp theo ▶';
+ $('#res').hidden=false;phase='ro';$('#toast').hidden=true;
+ [0,1].forEach(t=>{const r=$('#r'+(t+1));tw(r.querySelector('.p'),0,pt[t],x=>'+'+x);tw(r.querySelector('.to'),old[t],scores[t],x=>'Tổng: '+x);if(ok[t])burst(fx.width*(.25+.5*t),fx.height*.55,120)});
+ any?SFX.win():SFX.lose();scoreUI();
+}
+function next(){if(phase!='ro')return;idx++;idx>=Q.length?finish():nextQ()}
+function finish(){
+ phase='end';$('#res').hidden=true;const n=cfg.names,[a,b]=scores;
+ $('#ew').textContent=a==b?'HÒA NHAU!':n[a>b?0:1]+' CHIẾN THẮNG!';
+ $('#es').textContent=n[0]+': '+a+' điểm  —  '+n[1]+': '+b+' điểm';$('#end').hidden=false;
+ SFX.fan();[0,300,600,900,1300].forEach(t=>setTimeout(()=>burst(fx.width*Math.random(),fx.height*.4,100),t));
+}
+function startGame(){au();goFs();if(!camOn)cam();idx=0;scores=[0,0];$('#start').hidden=true;$('#end').hidden=true;nextQ()}
+$('#go').onclick=startGame;$('#again').onclick=startGame;$('#nx').onclick=next;
+function setCb(){document.body.classList.toggle('cam',camOn);const b=$('#cb'),t=camOn?'📷 Tắt camera':'📷 Bật camera';b.textContent=t;b.className=camOn?'':'off';$('#bcam').textContent=t}
+function stopCam(){if(v.srcObject)v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=null;camOn=false;prev=null;$('#cs').textContent='Camera đã tắt – vẫn có thể chơi bằng phím hoặc chạm.';setCb()}
+const tg=()=>{au();document.activeElement&&document.activeElement.blur();camOn?stopCam():cam()};
+$('#bcam').onclick=tg;$('#cb').onclick=tg;
+$('#fs').onclick=()=>{document.activeElement&&document.activeElement.blur();fs()};
+function slUp(){$('#sl').textContent='Nhạy '+cfg.sens}
+$('#sm').onclick=()=>{document.activeElement&&document.activeElement.blur();cfg.sens=Math.max(1,cfg.sens-1);slUp();save()};
+$('#sp').onclick=()=>{document.activeElement&&document.activeElement.blur();cfg.sens=Math.min(10,cfg.sens+1);slUp();save()};
+slUp();
+$('#btest').onclick=async()=>{
+ au();goFs();if(!camOn)await cam();
+ $('#start').hidden=true;phase='test';charge=[0,0,0,0];p1=p2=null;locks=[null,null];
+ $('#qb').textContent='🎯 Thử cử chỉ: vẫy tay qua lại vào từng ô – ô sáng xanh khi nhận diện được';
+ $('#qn').textContent='Chế độ thử';$('#tm').textContent='';$('#bf').style.width='0';
+ cards.forEach((c,k)=>{c.className='card t'+(k>>1);c.querySelector('span').textContent='Đáp án '+'AB'[k%2]});
+ $('#tx').hidden=false;$('#cal').hidden=false;$('#hint').hidden=true;
+};
+$('#cal').onclick=()=>{document.activeElement&&document.activeElement.blur();calib()};
+$('#tx').onclick=()=>{phase='idle';$('#tx').hidden=true;$('#cal').hidden=true;calZ=-1;$('#hint').hidden=false;$('#start').hidden=false;cards.forEach(c=>c.classList.remove('ok'))};
+$('#bfs').onclick=()=>{au();fs()};
+$('#cf').onclick=()=>{au();document.activeElement&&document.activeElement.blur();facing=facing=='user'?'environment':'user';cam()};$('#bflip').onclick=()=>{facing=facing=='user'?'environment':'user';cam()};
+addEventListener('keydown',e=>{
+ if($('#ed').hidden===false)return;const k=e.key.toLowerCase();
+ if(k==' '||k=='enter'){if(phase=='ro')next();else if(phase=='idle'||phase=='end')startGame();return}
+ const m={a:[0,0],s:[0,1],k:[1,0],l:[1,1]}[k];if(m)choose(m[0],m[1]);
+});
+
+function frame(now){
+ requestAnimationFrame(frame);
+ if(P.length||fc)drawFx();
+ if(camOn&&(phase=='q'||phase=='test'||phase=='r'))drawCams();
+ if(phase=='test'){if(camOn)mstep(now);glow();return}
+ if(phase!='q')return;
+ const tl=Math.max(0,cfg.time-(now-t0)/1000);
+ $('#tm').textContent=Math.ceil(tl);$('#bf').style.width=(tl/cfg.time*100)+'%';
+ const ci=Math.ceil(tl);if(ci<=5&&ci!=lastTick&&ci>0){lastTick=ci;SFX.tick()}
+ if(tl<=0){reveal();return}
+ if(camOn)mstep(now);
+ glow();
+}
+requestAnimationFrame(frame);
+
+/* ===== Soạn câu hỏi ===== */
+function renderEd(){
+ $('#etl').value=cfg.title;$('#e1').value=cfg.names[0];$('#e2').value=cfg.names[1];$('#et').value=cfg.time;$('#es2').value=cfg.sens;
+ $('#list').innerHTML=Q.map((x,i)=>`<div class="row"><b>${i+1}</b><input class="q" value="${esc(x.q)}" placeholder="Câu hỏi"><input class="a0" value="${esc(x.a[0])}" placeholder="Đáp án A"><input class="a1" value="${esc(x.a[1])}" placeholder="Đáp án B"><select class="c"><option value="0"${x.c==0?' selected':''}>Đúng: A</option><option value="1"${x.c==1?' selected':''}>Đúng: B</option></select><button class="g" data-del="${i}">🗑</button></div>`).join('');
+}
+function collect(){
+ cfg.title=$('#etl').value.trim()||'TOÁN 8 · ĐẠI CHIẾN CỬ CHỈ';cfg.names=[$('#e1').value||'Đội 1',$('#e2').value||'Đội 2'];
+ cfg.time=Math.max(5,Math.min(120,+$('#et').value||15));cfg.sens=Math.max(1,Math.min(10,+$('#es2').value||8));
+ Q=[...document.querySelectorAll('#list .row')].map(r=>({q:r.querySelector('.q').value.trim(),a:[r.querySelector('.a0').value.trim(),r.querySelector('.a1').value.trim()],c:+r.querySelector('.c').value})).filter(x=>x.q&&x.a[0]&&x.a[1]);
+}
+$('#bed').onclick=()=>{renderEd();$('#ed').hidden=false};
+function parseQs(txt){
+ const out=[];let cur=null;
+ const push=()=>{if(cur&&cur.q&&cur.a[0]&&cur.a[1])out.push({q:cur.q,a:[cur.a[0],cur.a[1]],c:cur.c});cur=null};
+ const strip=s=>s.replace(/^(?:câu|bài|question)\s*\d*\s*[:.)\-]\s*/i,'').replace(/^\d+\s*[.)]\s*/,'').trim();
+ for(const raw of String(txt).replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n')){
+  const l=raw.trim();
+  if(!l){push();continue}
+  if(/[|\t]/.test(l)||l.split(';').length>=3){
+   push();const f=l.split(/\s*[|\t;]\s*/).map(x=>x.replace(/^"+|"+$/g,'').trim());
+   if(f.length>=3&&f[0]&&f[1]&&f[2]&&!/^(câu hỏi|question)$/i.test(f[0]))out.push({q:strip(f[0])||f[0],a:[f[1],f[2]],c:/^(b|2)$/i.test(f[3]||'')?1:0});
+   continue}
+  let m=l.match(/^(?:đáp án|dap an|đ\/a|answer|ans)(?:\s*đúng)?\s*[:：.\-]?\s*([ABab12])(?![\p{L}\d])/iu);
+  if(m){if(cur)cur.c=/[Bb2]/.test(m[1])?1:0;continue}
+  if(cur&&/^\*?\s*[CDcd]\s*[.):：]\s*\S/.test(l))continue;
+  m=l.match(/^(\*?)\s*([ABab])\s*[.):：]\s*(.+)$/);
+  if(m&&cur){const i=/[Bb]/.test(m[2])?1:0;let t=m[3].trim();if(m[1]||/\*$/.test(t)){cur.c=i;t=t.replace(/\s*\*$/,'')}cur.a[i]=t;continue}
+  if(cur&&cur.a[0]==null&&cur.a[1]==null)cur.q+=' '+l;
+  else{push();cur={q:strip(l)||l,a:[null,null],c:0}}
+ }
+ push();return out;
+}
+const imsg=t=>{$('#im').textContent=t};
+$('#imp').onclick=()=>{$('#ip').hidden=!$('#ip').hidden};
+$('#if').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#it').value=r.result;imsg('Đã đọc file "'+f.name+'" – bấm "Thêm vào danh sách" hoặc "Thay toàn bộ".')};r.readAsText(f,'UTF-8')};
+function doImp(rep){
+ const n=parseQs($('#it').value);
+ if(!n.length){imsg('⚠️ Không nhận ra câu hỏi nào. Hãy kiểm tra lại định dạng theo hướng dẫn.');return}
+ if(rep&&!confirm('Thay toàn bộ các câu hiện có bằng '+n.length+' câu mới?'))return;
+ collect();Q=rep?n:Q.concat(n);renderEd();$('#ip').hidden=false;$('#it').value='';
+ imsg('✅ Đã '+(rep?'thay bằng ':'thêm ')+n.length+' câu. Nhớ bấm "Lưu & đóng" để dùng khi chơi.');
+}
+$('#ia').onclick=()=>doImp(0);$('#ir').onclick=()=>doImp(1);
+$('#is').onclick=()=>{
+ const t='Câu hỏi | Đáp án đúng | Đáp án sai\nNghiệm của phương trình 3x − 9 = 0 là: | x = 3 | x = −3\nHình vuông có bao nhiêu trục đối xứng? | 4 | 2\n\nCâu 3: Rút gọn (x² − 4)/(x − 2) với x ≠ 2:\nA. x − 2\nB. x + 2\nĐáp án: B\n';
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+t],{type:'text/plain;charset=utf-8'}));a.download='mau-cau-hoi.txt';a.click();
+};
+
+$('#add').onclick=()=>{collect();Q.push({q:'',a:['',''],c:0});renderEd()};
+$('#rst').onclick=()=>{if(confirm('Khôi phục bộ câu hỏi mẫu?')){Q=JSON.parse(JSON.stringify(DEF));renderEd()}};
+$('#list').onclick=e=>{const d=e.target.dataset&&e.target.dataset.del;if(d!=null&&d!==''){collect();Q.splice(+d,1);renderEd()}};
+$('#sv').onclick=()=>{collect();if(!Q.length)Q=JSON.parse(JSON.stringify(DEF));save();names();$('#ed').hidden=true};
+names();
+</script>
+</body></html>
